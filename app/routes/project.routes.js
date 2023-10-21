@@ -3,9 +3,13 @@ const router = express.Router();
 const { authJwt } = require("../middlewares");
 const projectController = require("../controllers/project.controller");
 const checkAdminPermission = require("../middlewares/projectPermission");
+const multer = require('multer');
+
 
 // Create a new project (POST)
-router.post("/api/projects", [authJwt.verifyToken, authJwt.isAdmin], projectController.createProject);
+
+
+router.post("/api/projects", [authJwt.verifyToken, authJwt.isAdmin], projectController.createProject,);
 
 // Get all projects (GET)
 router.get("/api/projects", projectController.getAllProjects);

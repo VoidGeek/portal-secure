@@ -3,7 +3,7 @@ const cors = require("cors");
 const cookieSession = require("cookie-session");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-// const upload = require('./app/config/multer.config');
+
 
 dotenv.config();
 
@@ -52,15 +52,18 @@ app.get("/", (req, res) => {
 // Import the contact and project routers
 const contactRouter = require("./app/routes/contact.routes");
 const projectRouter = require("./app/routes/project.routes"); // Import the project router
-const feedRouter = require("./app/routes/feed.routes");
+const postRoutes = require("./app/routes/postRoutes");
 const serviceRouter = require("./app/routes/service.routes")
 const testimonialRouter = require("./app/routes/testimonial.routes")
+const imageRoutes = require('./app/routes/imageRoutes')
 
 app.use("/", contactRouter); // Mount the contact router on the /api/contacts route
 app.use("/", projectRouter); // Mount the project router on the /api/projects route
-app.use("/", feedRouter);
+
 app.use("/", serviceRouter);
 app.use("/", testimonialRouter);
+app.use('/', postRoutes);
+app.use('/api', imageRoutes);
 
 // Import the authentication and user routes (replace with actual paths)
 try {

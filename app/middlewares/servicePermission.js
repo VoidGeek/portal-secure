@@ -12,7 +12,7 @@ const servicePermission = async (req, res, next) => {
     }
 
     // Check if the requesting user is the admin of the service
-    if (service.adminUser.toString() !== req.username) {
+    if (service.adminUser!== req.userId) {
       return res.status(403).json({ message: "You are not authorized to perform this operation" });
     }
 

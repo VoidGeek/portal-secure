@@ -24,3 +24,37 @@ exports.getAllUsers = (req, res) => {
   });
 };
 
+
+// Delete user by ID
+exports.deleteUser = (req, res) => {
+  const userId = req.params.id; // Assuming the user's ID is passed as a route parameter
+
+  User.findByIdAndRemove(userId, (err, user) => {
+    if (err) {
+      return res.status(500).json({ message: err });
+    }
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(204).json(); // Return a success response with no content
+  });
+};
+
+
+
+// Update user by ID
+exports.updateUser = (req, res) => {
+  const userId = req.params.id; // Assuming the user's ID is passed as a route parameter
+  const updatedData = req.body; // Data to update
+
+  User.findByIdAndUpdate(userId, updatedData, { new: true }, (err, user) => {
+    if (err) {
+      return res.status(500).json({ message: err });
+    }
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user); // Return the updated user
+  });
+};
+

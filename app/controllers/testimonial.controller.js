@@ -3,7 +3,7 @@ const Testimonial = require("../models/testimonial.model");
 // Create a new testimonial
 exports.createTestimonial = async (req, res) => {
   try {
-    const { testimonial_text, user_name, occupation, company, rating } = req.body;
+    const { testimonial_text, user_name, occupation, company, rating,images } = req.body;
 
     // Ensure that req.userId is defined and contains the user's ID
     if (!req.userId) {
@@ -11,13 +11,14 @@ exports.createTestimonial = async (req, res) => {
     }
 
     // Validate that all required fields are provided
-    if (!testimonial_text || !user_name || !occupation || !company || rating === undefined) {
+    if (!testimonial_text || !user_name || !occupation || !company || rating === undefined ||!images) {
       return res.status(400).json({ message: "All fields are required for testimonial creation." });
     }
 
-    const adminUserId = req.username; // Use req.userId to get the user's ID
+    const adminUserId = req.userId; // Use req.userId to get the user's ID
 
     const testimonial = new Testimonial({
+      images,
       testimonial_text,
       user_name,
       occupation,

@@ -5,6 +5,10 @@ const testimonialSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  images:{
+    type: String,
+    required: true
+  },
   user_name: {
     type: String,
     required: true,
@@ -34,6 +38,12 @@ const testimonialSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
   },
+  images: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image",
+    },
+  ],
 });
 
 testimonialSchema.pre("findOneAndUpdate", function () {

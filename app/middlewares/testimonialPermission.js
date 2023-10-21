@@ -11,16 +11,21 @@ const testimonialPermission = async (req, res, next) => {
     }
 
     // Check if the requesting user is the admin of the testimonial
-    if (testimonial.adminUser.toString() !== req.username) {
-      return res.status(403).json({ message: "You are not authorized to perform this operation" });
+    if (testimonial.adminUser !== req.userId) {
+      throw new Error("Unauthorized");
     }
 
     // If the user is the admin, proceed to the next middleware or route handler
     next();
   } catch (error) {
-    console.error("Error checking admin permission for testimonial:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    if (error.message === "Unauthorized") {
+      return res.status(403).json({ message: "You are not authorized to perform this operation" });
+    } else {
+      console.error("Error checking admin permission for testimonial:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
   }
 };
 
 module.exports = testimonialPermission;
+

@@ -1,19 +1,12 @@
-const mongoose = require("mongoose");
+// models/Post.js
+const mongoose = require('mongoose');
 
-const serviceSchema = new mongoose.Schema({
-  images:{
-    type:String,
-    required:true,
-  },
-  service_name: {
+const postSchema = new mongoose.Schema({
+  images: {
     type: String,
     required: true,
   },
-  service_info: {
-    type: String,
-    required: true,
-  },
-  benefits: {
+  caption: {
     type: String,
     required: true,
   },
@@ -36,8 +29,9 @@ const serviceSchema = new mongoose.Schema({
   ],
 });
 
-serviceSchema.pre("findOneAndUpdate", function () {
+
+postSchema.pre("findOneAndUpdate", function () {
   this._update.updatedAt = new Date();
 });
 
-module.exports = mongoose.model("Service", serviceSchema);
+module.exports = mongoose.model('Post', postSchema);

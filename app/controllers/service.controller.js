@@ -3,7 +3,7 @@ const Service = require("../models/service.model");
 // Create a new service
 exports.createService = async (req, res) => {
   try {
-    const { service_name, service_info, benefits} = req.body;
+    const { service_name, service_info, benefits, images} = req.body;
 
     // Ensure that req.userId is defined and contains the user's ID
     if (!req.userId) {
@@ -11,13 +11,14 @@ exports.createService = async (req, res) => {
     }
 
     // Validate that all required fields are provided
-    if (!service_name || !service_info || !benefits) {
+    if (!service_name || !service_info || !benefits ||!images) {
       return res.status(400).json({ message: "All fields are required for service creation." });
     }
 
-    const adminUserId = req.username; // Use req.userId to get the user's ID
+    const adminUserId = req.userId; // Use req.userId to get the user's ID
 
     const service = new Service({
+      images,
       service_name,
       service_info,
       benefits,
@@ -26,7 +27,7 @@ exports.createService = async (req, res) => {
 
     await service.save();
 
-    res.status(201).json({ message: "Service created successfully" });
+    res.status(201).json({ message: "Service created successfully" , data:Service});
   } catch (error) {
     console.error("Error creating service:", error);
     res.status(500).json({ error: "Internal Server Error" });

@@ -8,9 +8,9 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
   try {
-    const { username, email, password, roles } = req.body;
+    const { username, email, password,phoneNo,fullName, roles, images } = req.body;
     
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !phoneNo || !fullName) {
       return res.status(400).send({ message: "All fields are required for signup." });
     }
 
@@ -18,6 +18,9 @@ exports.signup = (req, res) => {
       username,
       email,
       password: bcrypt.hashSync(password, 8),
+      phoneNo,
+      fullName,
+      images,
     });
 
     user.save((err, user) => {
@@ -122,6 +125,9 @@ exports.signin = (req, res) => {
           username: user.username,
           email: user.email,
           roles: authorities,
+          phoneNo:user.phoneNo,
+          fullName:user.fullName,
+          createdAt:user.createdAt,
         });
       });
   } catch (error) {

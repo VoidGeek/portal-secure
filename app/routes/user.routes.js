@@ -10,12 +10,21 @@ module.exports = function(app) {
     next();
   });
 
-
+  app.put(
+    "/api/users/:id",
+    [authJwt.verifyToken],
+    controller.updateUser
+  );
 
   app.get(
     "/api/users",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.getAllUsers
   );
-  
+
+  app.delete(
+    "/api/users/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.deleteUser
+  );
 };

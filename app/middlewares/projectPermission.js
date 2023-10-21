@@ -2,7 +2,6 @@ const Project = require("../models/project.model");
 
 const projectPermission = async (req, res, next) => {
   const projectId = req.params.id; // Assuming project ID is in the request parameters
- 
 
   try {
     const project = await Project.findById(projectId);
@@ -12,7 +11,7 @@ const projectPermission = async (req, res, next) => {
     }
 
     // Check if the requesting user is the admin of the project
-    if (project.adminUser.toString() !== req.username) {
+    if (project.adminUser !== req.userId) {
       return res.status(403).json({ message: "You are not authorized to perform this operation" });
     }
 
@@ -24,6 +23,4 @@ const projectPermission = async (req, res, next) => {
   }
 };
 
-
 module.exports = projectPermission;
-
